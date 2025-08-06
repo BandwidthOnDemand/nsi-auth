@@ -126,6 +126,7 @@ def watch_file(filepath: FilePath, callback: Callable[[FilePath], None]) -> None
     def watch() -> None:
         """If modification time of `filepath` changes call `callback`."""
         last_modified = 0
+        app.logger.info(f"watch {filepath} for changes")
         while True:
             app.logger.debug(f"check modification time of {filepath}")
             try:

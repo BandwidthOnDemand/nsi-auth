@@ -96,6 +96,7 @@ class FileChangeHandler(FileSystemEventHandler):
 
     def on_modified(self, event: DirModifiedEvent | FileModifiedEvent) -> None:
         """Call load_allowed_client_dn() when `filepath` is modified."""
+        app.logger.debug(f"on_modified called: {FilePath(str(event.src_path)).resolve()} {self.filepath.resolve()}")
         if FilePath(str(event.src_path)).resolve() == self.filepath.resolve():
             load_allowed_client_dn(self.filepath)
 

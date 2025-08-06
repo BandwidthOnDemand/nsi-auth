@@ -96,7 +96,7 @@ class FileChangeHandler(FileSystemEventHandler):
 
     def on_modified(self, event: DirModifiedEvent | FileModifiedEvent) -> None:
         """Call load_allowed_client_dn() when `filepath` is modified."""
-        app.logger.debug(f"on_modified called: {FilePath(str(event.src_path)).resolve()} {self.filepath.resolve()}")
+        app.logger.debug(f"on_modified {event} {FilePath(str(event.src_path)).resolve()} {self.filepath.resolve()}")
         if FilePath(str(event.src_path)).resolve() == self.filepath.resolve():
             load_allowed_client_dn(self.filepath)
 
@@ -117,7 +117,7 @@ def load_allowed_client_dn(filepath: FilePath) -> None:
 def watch_file(file_to_watch: FilePath) -> None:
     """Setup watchdog to watch directory that the file resides in and call handler on change."""
     observer = Observer()
-    observer.schedule(FileChangeHandler(file_to_watch), path=str(file_to_watch.parent), recursive=False)
+    observer.schedule(FileChangeHandler(file_to_watch), path=str(file_to_watch.parent), recursive=True, event_filter=[FileModifiedEvent])
     observer.start()
 
 

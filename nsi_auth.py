@@ -90,13 +90,13 @@ class FileChangeHandler(FileSystemEventHandler):
 
     def __init__(self, filepath: FilePath) -> None:
         """Set the filepath of the file to watch."""
-        self.filepath = filepath.resolve()
+        self.filepath = filepath
         load_allowed_client_dn(self.filepath)
         app.logger.info(f"watch {self.filepath} for changes")
 
     def on_modified(self, event: DirModifiedEvent | FileModifiedEvent) -> None:
         """Call load_allowed_client_dn() when `filepath` is modified."""
-        if FilePath(str(event.src_path)).resolve() == self.filepath:
+        if FilePath(str(event.src_path)).resolve() == self.filepath.resolve():
             load_allowed_client_dn(self.filepath)
 
 

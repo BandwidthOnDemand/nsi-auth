@@ -117,8 +117,14 @@ def load_allowed_client_dn(filepath: FilePath) -> None:
 def watch_file(file_to_watch: FilePath) -> None:
     """Setup watchdog to watch directory that the file resides in and call handler on change."""
     observer = Observer()
-    observer.schedule(FileChangeHandler(file_to_watch), path=str(file_to_watch.parent), recursive=True, event_filter=[FileModifiedEvent])
+    observer.schedule(
+        FileChangeHandler(file_to_watch),
+        path=str(file_to_watch.parent),
+        recursive=True,
+        # event_filter=[FileModifiedEvent],
+    )
     observer.start()
+    app.logger.debug(f"watch folder {file_to_watch.parent}")
 
 
 watch_file(settings.allowed_client_subject_dn_path)

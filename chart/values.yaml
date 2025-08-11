@@ -66,20 +66,20 @@ resources: {}
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
+  #   cpu: 10m
+  #   memory: 64Mi
   # requests:
-  #   cpu: 100m
+  #   cpu: 1000m
   #   memory: 128Mi
 
 livenessProbe:
-  httpGet:
-    path: /validate
-    port: http
+  #httpGet:
+  #  path: /validate
+  #  port: http
 readinessProbe:
-  httpGet:
-    path: /validate
-    port: http
+  #httpGet:
+  #  path: /validate
+  #  port: http
 
 autoscaling:
   enabled: false
@@ -89,17 +89,17 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 # Additional volumes on the output Deployment definition.
-volumes: []
-# - name: foo
-#   secret:
-#     secretName: mysecret
-#     optional: false
+volumes:
+  - name: config
+    configMap:
+      name: test-config
+      optional: false
 
 # Additional volumeMounts on the output Deployment definition.
-volumeMounts: []
-# - name: foo
-#   mountPath: "/etc/foo"
-#   readOnly: true
+volumeMounts:
+  - name: config
+    mountPath: "/config"
+    readOnly: true
 
 nodeSelector: {}
 
@@ -119,3 +119,29 @@ config:
       CN=CertB,OU=Dept Y,O=Company 2,C=NL
       CN=CertC,OU=Dept Z,O=Company 3,C=NL
   inlineBinaryData:
+#  additionalTrustedCA: |-
+#
+#    subject=C=AU, ST=Some-State, O=My Organisation, CN=My self signed root CA
+#    =========================================================================
+#    -----BEGIN CERTIFICATE-----
+#    MIIDmzCCAoOgAwIBAgIUYzV2fb5GNklmz1Wb/tcn3GprN0MwDQYJKoZIhvcNAQEL
+#    BQAwXTELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxGDAWBgNVBAoM
+#    D015IE9yZ2FuaXNhdGlvbjEfMB0GA1UEAwwWTXkgc2VsZiBzaWduZWQgcm9vdCBD
+#    QTAeFw0yNTA4MDcxMTM0MTlaFw0zNTA4MDcxMTM0MTlaMF0xCzAJBgNVBAYTAkFV
+#    MRMwEQYDVQQIDApTb21lLVN0YXRlMRgwFgYDVQQKDA9NeSBPcmdhbmlzYXRpb24x
+#    HzAdBgNVBAMMFk15IHNlbGYgc2lnbmVkIHJvb3QgQ0EwggEiMA0GCSqGSIb3DQEB
+#    AQUAA4IBDwAwggEKAoIBAQCl6IIW7UwZbzzEqVy4ACpAAbcu20dBYZB/+ApLl6QP
+#    Sq+P2UkP4MqJ/JxAjeTzHpyBbQlMnmsA9OFIblR1Gj2EjMfwYp1+QapbppEjzYEJ
+#    KihVl8Mo+mQ7GBCdmVMKtvxM8yeafO07LwArVDDjA92EfdonO/8cYStQWtvcTPd8
+#    ZRm4udx7sYap2X0bGJALBqbPDpiPqc9BY8ZaGLtIyE97VR/S0786dLzWgKocwPOD
+#    U1ESjJq31WmsWASs2UNmHE1sdzn1vq08umoumGfkuchRSlDDsgz++WoKnZVtEop1
+#    YlmNU9bFlw1OfLCosCfyjLDRM8hSm5EaKWe0KRXMtJiFAgMBAAGjUzBRMB0GA1Ud
+#    DgQWBBTOqbjm/j/R+UeHKqSPl3TvUOjzhTAfBgNVHSMEGDAWgBTOqbjm/j/R+UeH
+#    KqSPl3TvUOjzhTAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQA9
+#    PglxaqamA3nyyenhAQX0JMB7LkUVrWNWOlxVAG86U1dN5HZUhzd16A/5HMxIHQSJ
+#    3nQueVSF3nI6gR3NcMcFs/VLpXkeJGeQSQ46ZpqAv6MHkrmFuBmAyf20wixD3Osp
+#    KSBhR21ouU5GWhJhsl+FnGg9R+/HbrjjU3lJiIDkHZr8Bv3t0qhzat3CA8ea6wId
+#    smP/bZtO0PL7iRAec/TnIXaWOfP3t8PwM9sWPjEf+g2IAIlPSp0MHSMobh2IwNxV
+#    Qg2gs7DxSatssgBvTjyAG6zlpWidjfhvIvq3tsa9wDhe3xoWFrZPiN7Ela3Mc2nj
+#    VwXOCCu9/2/MxG79jRDJ
+#    -----END CERTIFICATE-----

@@ -32,7 +32,7 @@ classifiers = [
     "Topic :: Internet :: WWW/HTTP",
 ]
 dependencies = [
-    "cryptography==48.0.1",
+    "cryptography==49.0.0",
     "flask==3.1.3",
     "pydantic-settings==2.14.2",
     "structlog==26.1.0",

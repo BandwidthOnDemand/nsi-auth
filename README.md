@@ -1,6 +1,6 @@
 # NSI Authentication Server (`nsi-auth`)
 
-[![Helm Chart](https://img.shields.io/badge/Helm%20Chart-available-blue)](https://bandwidthondemand.github.io/nsi-node/)
+[![Helm Chart](https://img.shields.io/badge/Helm%20Chart-available-blue)](https://github.com/workfloworchestrator/nsi-auth/pkgs/container/charts%2Fnsi-auth)
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-compatible-brightgreen)](https://kubernetes.io/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)](https://opensource.org/licenses/Apache-2.0)
 
@@ -121,12 +121,19 @@ helm upgrade --install --values my-values.yaml nsi-auth chart
 > The value `configMap.name` is defined as `{{ .Release.Name }}-config` and must match your Helm release name.
 > In this example, the release name is nsi-auth.
 
-Alternatively, install directly from the nsi-node Helm repository:
+Alternatively, install a published release directly from the registry. The chart
+is an OCI artifact, so no `helm repo add` is needed:
 
 ```shell
-helm repo add nsi-node https://bandwidthondemand.github.io/nsi-node/
-helm repo update
-helm upgrade --install --values my-values.yaml nsi-auth nsi-node/nsi-auth
+helm upgrade --install --values my-values.yaml nsi-auth \
+    oci://ghcr.io/workfloworchestrator/charts/nsi-auth --version <version>
+```
+
+The chart version equals the application version equals the git tag, so
+`<version>` is the release tag you want to deploy. To inspect one first:
+
+```shell
+helm show chart oci://ghcr.io/workfloworchestrator/charts/nsi-auth --version <version>
 ```
 
 ### 2. CA Certificate Handling

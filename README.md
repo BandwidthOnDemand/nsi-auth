@@ -51,6 +51,7 @@ nsi-dds-proxy) can confirm mTLS happened and identify the client.
   - [2. CA Certificate Handling](#2-ca-certificate-handling)
   - [3. Configuration Options](#3-configuration-options)
   - [4. Ingress Configuration](#4-ingress-configuration)
+- [Versioning](#versioning)
 - [See Also](#-see-also)
 
 ---
@@ -387,6 +388,23 @@ These settings ensure that the ingress controller:
 
 - Validates client certificates against the trusted CA chain
 - Delegates authorization to the nsi-auth service
+
+---
+
+## Versioning
+
+The release git tag is the only place a version is written by hand. `pyproject.toml` declares
+`dynamic = ["version"]` and setuptools-scm derives it: a tag builds `0.3.2`, any other commit builds
+the next patch as a dev release with its commit, `0.3.3.dev3+g1a2b3c4`.
+
+The container build has no `.git`, so `.github/workflows/build-push-container.yml` checks out with
+`fetch-depth: 0`, resolves the version on the runner, and passes it as `--build-arg VERSION=...`,
+which the `Dockerfile` hands to setuptools-scm as `SETUPTOOLS_SCM_PRETEND_VERSION_FOR_NSI_AUTH`. A
+build without that argument fails rather than producing a mislabelled image:
+
+```bash
+docker build --build-arg VERSION="$(uvx --from setuptools-scm python -m setuptools_scm)" -t nsi-auth .
+```
 
 ---
 

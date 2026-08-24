@@ -1,10 +1,12 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
 
 [project]
 name = "nsi_auth"
-version = "0.3.2.dev1"
+dynamic = ["version"]
 license = "Apache-2.0"
 authors = [
     {name = "Hans Trompert", email = "hans.trompert@surf.net"},
@@ -56,7 +58,6 @@ dev = [
     "flake8==7.3.0",
     "black==26.5.1",
     "ruff==0.16.2",
-    "bumpversion==0.6.0",
     "isort==8.0.1",
     "flake8-pyproject==1.2.4",
 ]
